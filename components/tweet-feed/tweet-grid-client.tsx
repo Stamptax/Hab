@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import type { Tweet } from "react-tweet/api";
-import { CustomTweetCard, components } from "./custom-tweet-card";
+import { CustomTweetCard, components } from "../custom-tweet-card";
 import { TweetFullView } from "./tweet-full-view";
 import {
   Dialog,

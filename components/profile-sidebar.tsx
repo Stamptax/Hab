@@ -7,24 +7,24 @@ import { Twitter, Youtube, Globe, User, Instagram } from "lucide-react";
 const socialStats = [
   {
     platform: "Twitter",
-    followers: "2.4M",
     icon: Twitter,
     color: "text-blue-500",
     bg: "bg-blue-50",
+    link: "https://twitter.com/tanda_hazuki?",
   },
   {
     platform: "YouTube",
-    subscribers: "890K",
     icon: Youtube,
     color: "text-red-500",
     bg: "bg-red-50",
+    link: "https://youtube.com/channel/UCOLL3KDzhqu-CQ_uXZUQ7XA?si=2k6kGbRMTFbQ89am",
   },
   {
     platform: "Instagram",
-    connections: "500K+",
     icon: Instagram,
     color: "text-blue-600",
     bg: "bg-blue-50",
+    link: "https://www.instagram.com/tandahazuki_/",
   },
 ];
 
@@ -44,10 +44,7 @@ export function ProfileSidebar() {
         <CardContent className="pt-6">
           <div className="text-center mb-6">
             <Avatar className="w-24 h-24 mx-auto mb-4 ring-4 ring-pink-100">
-              <AvatarImage
-                src="/placeholder.svg?height=96&width=96"
-                alt="Profile"
-              />
+              <AvatarImage src="/hachan.jpg" alt="Profile" />
               <AvatarFallback className="bg-gradient-to-br from-pink-400 to-rose-500 text-white text-2xl">
                 JD
               </AvatarFallback>
@@ -66,16 +63,12 @@ export function ProfileSidebar() {
           </p>
 
           <div className="flex justify-center gap-2 mb-6">
-            <Button className="bg-pink-500 hover:bg-pink-600 text-white">
-              <Globe className="w-4 h-4 mr-2" />
-              Website
-            </Button>
-            <Button
-              variant="outline"
-              className="border-pink-200 text-pink-600 hover:bg-pink-50"
-            >
-              Follow
-            </Button>
+            <a href="https://moony.club/" target="_blank">
+              <Button className="bg-pink-500 hover:bg-pink-600 text-white">
+                <Globe className="w-4 h-4 mr-2" />
+                Website
+              </Button>
+            </a>
           </div>
 
           {/* Social Media Links */}
@@ -83,17 +76,16 @@ export function ProfileSidebar() {
             {socialStats.map((social) => (
               <div
                 key={social.platform}
-                className={`flex items-center justify-between p-3 rounded-lg ${social.bg} border border-pink-100 hover:shadow-sm transition-shadow duration-200`}
+                className={`flex items-center justify-between p-3 rounded-lg ${social.bg} border border-pink-100 hover:shadow-md transition-shadow duration-200`}
               >
-                <div className="flex items-center gap-3">
-                  <social.icon className={`w-5 h-5 ${social.color}`} />
-                  <span className="font-medium text-slate-700">
-                    {social.platform}
-                  </span>
-                </div>
-                <span className="text-sm font-semibold text-slate-600">
-                  {social.followers}
-                </span>
+                <a href={social.link} target="_blank">
+                  <div className="flex items-center gap-3">
+                    <social.icon className={`w-5 h-5 ${social.color}`} />
+                    <span className="font-medium text-slate-700">
+                      {social.platform}
+                    </span>
+                  </div>
+                </a>
               </div>
             ))}
           </div>

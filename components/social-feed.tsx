@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Play, Eye, Instagram, Heart } from "lucide-react";
-import { TweetGrid } from "./tweet-grid";
+import { TweetGrid } from "./tweet-feed/tweet-grid";
 
 const videos = [
   {
