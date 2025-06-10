@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Play, Eye, Instagram, Heart } from "lucide-react";
 import { TweetGrid } from "./tweet-feed/tweet-grid";
+import { fetchTweets } from "@/lib/actions";
 
 const videos = [
   {
@@ -38,16 +39,10 @@ const instagramPosts = [
   },
 ];
 
-const tweetData = [
-  {
-    id: "1931698356218438096",
-  },
-  {
-    id: "1931680350901846415",
-  },
-];
+export async function SocialFeed() {
+  const tweets = await fetchTweets();
+  console.log("tweets", tweets);
 
-export function SocialFeed() {
   return (
     <div className="space-y-6">
       {/* Twitter Feed */}
@@ -61,7 +56,7 @@ export function SocialFeed() {
           </CardTitle>
         </CardHeader>
         <CardContent className="p-6">
-          <TweetGrid tweetIds={tweetData.map((tweet) => tweet.id)} />
+          <TweetGrid tweetIds={tweets.map((tweet: any) => tweet.id)} />
         </CardContent>
       </Card>
 
