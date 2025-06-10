@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Play, Eye, Instagram, Heart } from "lucide-react";
-import { Tweet } from "react-tweet";
+import { TweetGrid } from "./tweet-grid";
 
 const videos = [
   {
@@ -61,22 +61,7 @@ export function SocialFeed() {
           </CardTitle>
         </CardHeader>
         <CardContent className="p-6">
-          <div className="grid gap-4 md:grid-cols-2">
-            {tweetData.map((tweet) => (
-              <div
-                key={tweet.id}
-                className="flex rounded-xl h-64 flex-col gap-2 cursor-pointer overflow-hidden"
-              >
-                <div className="custom-tweet-wrapper" data-theme="light">
-                  <Tweet id={tweet.id} />
-                </div>
-                <div className="flex justify-between items-center custom-tweet-footer text-sm text-slate-500 px-4">
-                  <span>100 likes</span>
-                  <span>2025-06-09</span>
-                </div>
-              </div>
-            ))}
-          </div>
+          <TweetGrid tweetIds={tweetData.map((tweet) => tweet.id)} />
         </CardContent>
       </Card>
 
