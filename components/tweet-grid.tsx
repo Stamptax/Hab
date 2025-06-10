@@ -1,39 +1,40 @@
 import { Suspense } from "react";
 import { getTweet } from "react-tweet/api";
-import { TweetNotFound, TweetSkeleton } from "react-tweet";
-import { CustomTweetCard, components } from "./custom-tweet-card";
+import { TweetSkeleton } from "react-tweet";
+import { TweetGridClient } from "./tweet-grid-client";
 
-const TweetCardWrapper = async ({ id }: { id: string }) => {
-  try {
-    const tweet = await getTweet(id);
-
-    if (!tweet) {
-      return <TweetNotFound />;
+const TweetDataLoader = async ({ tweetIds }: { tweetIds: string[] }) => {
+  const tweetPromises = tweetIds.map(async (id) => {
+    try {
+      const tweet = await getTweet(id);
+      return tweet;
+    } catch (error) {
+      console.error(`fetch tweet ${id} error:`, error);
+      return null;
     }
+  });
 
-    return (
-      <CustomTweetCard tweet={tweet} components={components} maxHeight={240} />
-    );
-  } catch (error) {
-    console.error("fetch tweet error:", error);
-    return <TweetNotFound />;
-  }
+  const tweets = await Promise.all(tweetPromises);
+  return <TweetGridClient tweets={tweets} />;
 };
 
 export function TweetGrid({ tweetIds }: { tweetIds: string[] }) {
   return (
-    <div className="grid gap-4 md:grid-cols-2">
-      {tweetIds.map((id) => (
-        <div
-          key={id}
-          data-tweet-id={id}
-          className="flex rounded-xl flex-col gap-2 cursor-pointer overflow-hidden"
-        >
-          <Suspense fallback={<TweetSkeleton />}>
-            <TweetCardWrapper id={id} />
-          </Suspense>
+    <Suspense
+      fallback={
+        <div className="grid gap-4 md:grid-cols-2">
+          {tweetIds.map((id) => (
+            <div
+              key={id}
+              className="flex rounded-xl flex-col gap-2 overflow-hidden"
+            >
+              <TweetSkeleton />
+            </div>
+          ))}
         </div>
-      ))}
-    </div>
+      }
+    >
+      <TweetDataLoader tweetIds={tweetIds} />
+    </Suspense>
   );
 }
