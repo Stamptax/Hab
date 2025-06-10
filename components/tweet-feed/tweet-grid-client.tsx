@@ -49,11 +49,11 @@ export function TweetGridClient({ tweets }: TweetGridClientProps) {
 
   return (
     <>
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="flex gap-4 overflow-x-auto pb-2">
         {tweets.map((tweet, index) => (
           <div
             key={tweet?.id_str || index}
-            className="flex rounded-xl flex-col gap-2 overflow-hidden"
+            className="flex-shrink-0 w-[calc(50%-8px)] min-w-[280px] rounded-xl flex-col gap-2 overflow-hidden"
           >
             {tweet ? (
               <div

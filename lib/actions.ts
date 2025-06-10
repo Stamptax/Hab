@@ -28,6 +28,5 @@ export async function fetchTweets() {
     return data.data || [];
   } catch (error) {
     console.log("Failed to fetch tweets:", error);
-    return [];
   }
 }
