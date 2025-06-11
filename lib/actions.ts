@@ -54,9 +54,7 @@ export async function fetchYoutubeVideos() {
 
     if (videos.length === 0) return [];
 
-    // 第二步：批量检查直播状态
     const videoIds = videos.map((video: any) => video.id.videoId).join(",");
-
     const detailsResponse = await fetch(
       `https://youtube.googleapis.com/youtube/v3/videos?part=liveStreamingDetails,snippet&id=${videoIds}&key=${apiKey}`
     );
@@ -70,7 +68,6 @@ export async function fetchYoutubeVideos() {
 
     const detailsData = await detailsResponse.json();
 
-    // 过滤掉有直播详情的视频
     const nonLiveVideos =
       detailsData.items?.filter((video: any) => !video.liveStreamingDetails) ||
       [];

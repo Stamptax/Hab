@@ -9,9 +9,11 @@ export function YoutubeWrapper({ videos }: { videos: any[] }) {
   return (
     <div className="flex gap-4 overflow-x-auto pb-4">
       {videos.map((video: any) => (
-        <div
-          key={video.id.videoId}
+        <a
+          key={video.id}
           className="flex-shrink-0 group cursor-pointer"
+          href={`https://www.youtube.com/watch?v=${video.id}`}
+          target="_blank"
         >
           <div className="relative rounded-xl overflow-hidden mb-3 border border-cyan-100">
             <img
@@ -32,7 +34,7 @@ export function YoutubeWrapper({ videos }: { videos: any[] }) {
           <div className="flex items-center gap-3 text-sm text-slate-500">
             <span>{formatDate(video.snippet.publishedAt)}</span>
           </div>
-        </div>
+        </a>
       ))}
     </div>
   );
