@@ -77,22 +77,23 @@ export function ProfileSidebar() {
           </p>
 
           {/* Social Media Links */}
-          <div className="space-y-3">
-            {socialStats.map((social) => (
-              <div
-                key={social.platform}
-                className={`flex items-center justify-between p-3 rounded-lg ${social.bg} border border-pink-100 hover:shadow-md transition-shadow duration-200`}
-              >
-                <a href={social.link} target="_blank">
-                  <div className="flex items-center gap-3">
-                    <social.icon className={`w-5 h-5 ${social.color}`} />
-                    <span className="font-medium text-slate-700">
-                      {social.platform}
-                    </span>
-                  </div>
+          <div className="bg-gradient-to-r from-pink-50 to-rose-50 border border-pink-200 rounded-xl p-4">
+            <div className="grid grid-cols-5 gap-3 justify-items-center">
+              {socialStats.map((social) => (
+                <a
+                  key={social.platform}
+                  href={social.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`w-12 h-12 ${social.bg} rounded-full flex items-center justify-center border border-pink-100 hover:shadow-md hover:scale-110 transition-all duration-200 group`}
+                  title={social.platform}
+                >
+                  <social.icon
+                    className={`w-6 h-6 ${social.color} group-hover:scale-110 transition-transform duration-200`}
+                  />
                 </a>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </CardContent>
       </Card>

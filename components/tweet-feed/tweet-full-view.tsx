@@ -53,12 +53,12 @@ export const TweetFullView = ({ tweet: t }: TweetFullViewProps) => {
       </div>
 
       {/* time */}
-      <div className="mb-4 text-sm text-slate-500 border-b pb-4">
+      <div className="text-sm text-slate-500 border-b pb-4">
         {formatDate(tweet.created_at)}
       </div>
 
       {/* statistics */}
-      <div className="flex items-center justify-around py-3 border-b">
+      <div className="flex items-center justify-around gap-8 py-3 border-b">
         <div className="flex items-center gap-2 text-slate-600">
           <MessageCircle className="w-5 h-5" />
           <span className="text-sm font-medium">

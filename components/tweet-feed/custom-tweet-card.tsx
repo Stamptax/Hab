@@ -26,7 +26,7 @@ export const CustomTweetCard = ({
 
   return (
     <div
-      className="relative overflow-hidden"
+      className="relative overflow-hidden bg-cyan-50/50 border border-gray-200 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
       style={{ height: `${maxHeight}px` }}
     >
       {/* main content */}
@@ -70,7 +70,7 @@ export const CustomTweetCard = ({
         </div>
 
         {/* footer */}
-        <div className="flex-shrink-0 px-4" style={{ marginTop: "10px" }}>
+        <div className="flex-shrink-0 px-4 pb-4 pt-2">
           <div className="flex items-center justify-between text-sm text-slate-500">
             <span>{formatDate(tweet.created_at)}</span>
             <span className="flex items-center gap-1">

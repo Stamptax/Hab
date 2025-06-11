@@ -53,7 +53,7 @@ export function TweetGridClient({ tweets }: TweetGridClientProps) {
         {tweets.map((tweet, index) => (
           <div
             key={tweet?.id_str || index}
-            className="flex-shrink-0 w-[calc(50%-8px)] min-w-[280px] rounded-xl flex-col gap-2 overflow-hidden"
+            className="flex-shrink-0 w-[calc(50%-8px)] min-w-[280px]"
           >
             {tweet ? (
               <div
@@ -67,7 +67,7 @@ export function TweetGridClient({ tweets }: TweetGridClientProps) {
                 />
               </div>
             ) : (
-              <div className="h-60 bg-gray-100 rounded-xl flex items-center justify-center">
+              <div className="h-60 bg-gray-100 rounded-xl shadow-sm border border-gray-200 flex items-center justify-center">
                 <span className="text-gray-500">loading...</span>
               </div>
             )}
