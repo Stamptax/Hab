@@ -3,7 +3,7 @@ import { TweetSkeleton } from "react-tweet";
 import { TweetGridClient } from "@/components/tweet-feed/tweet-grid-client";
 import { getTweet } from "react-tweet/api";
 
-export function TweetGrid({ tweetIds }: { tweetIds: string[] }) {
+export function TweetWrapper({ tweetIds }: { tweetIds: string[] }) {
   const TweetDataLoader = async ({ tweetIds }: { tweetIds: string[] }) => {
     const tweetPromises = tweetIds.map(async (id) => {
       try {

@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import type { Tweet } from "react-tweet/api";
-import { CustomTweetCard, components } from "../custom-tweet-card";
+import { CustomTweetCard, components } from "./custom-tweet-card";
 import { TweetFullView } from "./tweet-full-view";
 import {
   Dialog,
@@ -49,7 +49,7 @@ export function TweetGridClient({ tweets }: TweetGridClientProps) {
 
   return (
     <>
-      <div className="flex gap-4 overflow-x-auto pb-2">
+      <div className="flex gap-4 pb-4 overflow-x-auto">
         {tweets.map((tweet, index) => (
           <div
             key={tweet?.id_str || index}

@@ -1,7 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Play, Eye, Instagram, Heart } from "lucide-react";
-import { TweetGrid } from "./tweet-feed/tweet-grid";
-import { fetchTweets } from "@/lib/actions";
+import { TweetWrapper } from "./tweet-feed/tweet-grid";
+import { fetchTweets, fetchYoutubeVideos } from "@/lib/actions";
+import { YoutubeWrapper } from "./youtube-feed/youtube-grid";
 
 const videos = [
   {
@@ -39,10 +40,17 @@ const instagramPosts = [
   },
 ];
 
-export async function SocialFeed() {
-  const tweets = await fetchTweets();
-  console.log("tweets", tweets);
+const tweets = [
+  { id: "1234567890" },
+  { id: "1234567891" },
+  { id: "1234567892" },
+  { id: "1234567895" },
+  { id: "1234567894" },
+];
 
+export async function SocialFeed() {
+  // const tweets = await fetchTweets();
+  const videos = await fetchYoutubeVideos();
   return (
     <div className="space-y-6">
       {/* Twitter Feed */}
@@ -56,7 +64,7 @@ export async function SocialFeed() {
           </CardTitle>
         </CardHeader>
         <CardContent className="p-6">
-          <TweetGrid tweetIds={tweets.map((tweet: any) => tweet.id)} />
+          <TweetWrapper tweetIds={tweets.map((tweet: any) => tweet.id)} />
         </CardContent>
       </Card>
 
@@ -71,38 +79,7 @@ export async function SocialFeed() {
           </CardTitle>
         </CardHeader>
         <CardContent className="p-6">
-          <div className="grid gap-6 md:grid-cols-2">
-            {videos.map((video) => (
-              <div key={video.id} className="group cursor-pointer">
-                <div className="relative rounded-xl overflow-hidden mb-3 border border-cyan-100">
-                  <img
-                    src={video.thumbnail || "/placeholder.svg"}
-                    alt={video.title}
-                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300"></div>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-12 h-12 bg-white/90 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                      <Play className="w-5 h-5 text-slate-700 ml-0.5" />
-                    </div>
-                  </div>
-                  <div className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
-                    {video.duration}
-                  </div>
-                </div>
-                <h3 className="font-semibold text-slate-700 mb-2 group-hover:text-cyan-600 transition-colors">
-                  {video.title}
-                </h3>
-                <div className="flex items-center gap-3 text-sm text-slate-500">
-                  <span className="flex items-center gap-1">
-                    <Eye className="w-3 h-3" />
-                    {video.views} views
-                  </span>
-                  <span>{video.publishedAt}</span>
-                </div>
-              </div>
-            ))}
-          </div>
+          <YoutubeWrapper videos={videos} />
         </CardContent>
       </Card>
 

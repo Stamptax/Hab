@@ -70,13 +70,13 @@ export const CustomTweetCard = ({
         </div>
 
         {/* footer */}
-        <div className="flex-shrink-0 px-4 pb-4" style={{ marginTop: "10px" }}>
+        <div className="flex-shrink-0 px-4" style={{ marginTop: "10px" }}>
           <div className="flex items-center justify-between text-sm text-slate-500">
+            <span>{formatDate(tweet.created_at)}</span>
             <span className="flex items-center gap-1">
               <Heart className="w-3 h-3" />
               {tweet.favorite_count || 0} likes
             </span>
-            <span>{formatDate(tweet.created_at)}</span>
           </div>
         </div>
       </div>

@@ -41,18 +41,15 @@ export const TweetDialog = ({
         </DialogHeader>
 
         <div className="space-y-4">
-          {/* 推文头部 */}
           <div className="px-2">
             <TweetHeader tweet={tweet} components={components} />
           </div>
 
-          {/* 推文内容 */}
           <div className="px-2">
             <div className="text-gray-900 text-lg leading-7 whitespace-pre-wrap break-words">
               {tweet.text}
             </div>
 
-            {/* 媒体内容 */}
             {tweet.mediaDetails?.length ? (
               <div className="mt-4 space-y-3">
                 {tweet.mediaDetails.map((media, index) => (
@@ -62,7 +59,7 @@ export const TweetDialog = ({
                   >
                     <Image
                       src={media.media_url_https}
-                      alt="推文媒体"
+                      alt="tweet media"
                       width={media.sizes?.large?.w || 600}
                       height={media.sizes?.large?.h || 400}
                       className="w-full h-auto rounded-lg"
@@ -74,7 +71,6 @@ export const TweetDialog = ({
             ) : null}
           </div>
 
-          {/* 推文底部 */}
           <div className="px-2 pt-4 border-t">
             <div className="flex items-center justify-between text-sm text-slate-500">
               <span className="flex items-center gap-2">
