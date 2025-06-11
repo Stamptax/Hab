@@ -1,6 +1,6 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Calendar, ExternalLink, Clock, Newspaper } from "lucide-react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Calendar, ExternalLink, Clock, Newspaper } from "lucide-react";
 
 const news = [
   {
@@ -33,7 +33,7 @@ const news = [
     category: "Events",
     readTime: "5 min read",
   },
-]
+];
 
 const upcomingEvents = [
   {
@@ -60,7 +60,7 @@ const upcomingEvents = [
     type: "Keynote",
     location: "New York, NY",
   },
-]
+];
 
 export function NewsSection() {
   return (
@@ -90,10 +90,14 @@ export function NewsSection() {
               <h3 className="font-semibold text-slate-800 mb-3 hover:text-purple-600 cursor-pointer transition-colors leading-tight">
                 {article.headline}
               </h3>
-              <p className="text-slate-600 text-sm mb-4 leading-relaxed">{article.summary}</p>
+              <p className="text-slate-600 text-sm mb-4 leading-relaxed">
+                {article.summary}
+              </p>
               <div className="flex items-center justify-between text-xs text-slate-500">
                 <div className="flex items-center gap-3">
-                  <span className="font-medium text-purple-600">{article.source}</span>
+                  <span className="font-medium text-purple-600">
+                    {article.source}
+                  </span>
                   <span>{article.publishedAt}</span>
                 </div>
                 <span className="flex items-center gap-1 text-purple-500">
@@ -105,40 +109,6 @@ export function NewsSection() {
           ))}
         </CardContent>
       </Card>
-
-      {/* Upcoming Events - Purple Theme */}
-      <Card className="backdrop-blur-sm bg-white/90 border border-purple-200 shadow-lg hover:shadow-xl transition-shadow duration-300">
-        <CardHeader className="bg-gradient-to-r from-purple-50 to-violet-50 border-b border-purple-100">
-          <CardTitle className="flex items-center gap-3 text-slate-700">
-            <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
-              <Calendar className="w-4 h-4 text-white" />
-            </div>
-            <span className="text-purple-700">Upcoming Events</span>
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="p-6 space-y-4">
-          {upcomingEvents.map((event) => (
-            <div
-              key={event.id}
-              className="p-4 rounded-xl bg-purple-50/50 border border-purple-100 hover:bg-purple-50 transition-colors duration-200"
-            >
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <h4 className="font-semibold text-slate-800 mb-2">{event.title}</h4>
-                  <div className="text-sm text-slate-600 space-y-1">
-                    <p className="flex items-center gap-2">
-                      <Calendar className="w-3 h-3 text-purple-500" />
-                      {event.date} • {event.time}
-                    </p>
-                    <p className="text-slate-500">{event.location}</p>
-                  </div>
-                </div>
-                <Badge className="bg-purple-100 text-purple-700 border-purple-200">{event.type}</Badge>
-              </div>
-            </div>
-          ))}
-        </CardContent>
-      </Card>
     </div>
-  )
+  );
 }

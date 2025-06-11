@@ -1,7 +1,7 @@
-import { Header } from "./components/header";
-import { SocialFeed } from "./components/social-feed";
-import { NewsSection } from "./components/news-section";
-import { ProfileSidebar } from "./components/profile-sidebar";
+import { Header } from "../components/header";
+import { SocialFeed } from "../components/social-feed";
+import { NewsSection } from "../components/news-section";
+import { ProfileSidebar } from "../components/profile-sidebar";
 
 export default function PublicFigureHub() {
   return (
@@ -48,14 +48,7 @@ export default function PublicFigureHub() {
       <footer className="mt-16 py-8 border-t border-slate-200 bg-white/50 backdrop-blur-sm">
         <div className="container mx-auto px-4 text-center">
           <p className="text-slate-600 text-sm">
-            © 2024 Jane Doe Hub. All rights reserved. |
-            <span className="ml-2 text-slate-700 hover:text-slate-900 cursor-pointer">
-              Privacy Policy
-            </span>{" "}
-            |
-            <span className="ml-2 text-slate-700 hover:text-slate-900 cursor-pointer">
-              Terms of Service
-            </span>
+            © 2025 Hab. All rights reserved.
           </p>
         </div>
       </footer>

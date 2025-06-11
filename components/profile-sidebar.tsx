@@ -1,10 +1,17 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Twitter, Youtube, Globe, User, Instagram } from "lucide-react";
+import { Youtube, Twitter, User, Instagram, Moon } from "lucide-react";
+import { AiFillTikTok } from "react-icons/ai";
 
 const socialStats = [
+  {
+    platform: "Fan Club",
+    icon: Moon,
+    color: "text-yellow-500",
+    bg: "bg-yellow-50",
+    link: "https://moony.club/",
+  },
   {
     platform: "Twitter",
     icon: Twitter,
@@ -20,10 +27,17 @@ const socialStats = [
     link: "https://youtube.com/channel/UCOLL3KDzhqu-CQ_uXZUQ7XA?si=2k6kGbRMTFbQ89am",
   },
   {
+    platform: "TikTok",
+    icon: AiFillTikTok,
+    color: "text-black",
+    bg: "bg-purple-50",
+    link: "https://www.tiktok.com/@tandachan_28",
+  },
+  {
     platform: "Instagram",
     icon: Instagram,
-    color: "text-blue-600",
-    bg: "bg-blue-50",
+    color: "text-pink-600",
+    bg: "bg-pink-50",
     link: "https://www.instagram.com/tandahazuki_/",
   },
 ];
@@ -61,15 +75,6 @@ export function ProfileSidebar() {
           <p className="text-sm text-slate-600 text-center mb-6 leading-relaxed">
             Tanda Hazuki is a singer, idol, and actress.
           </p>
-
-          <div className="flex justify-center gap-2 mb-6">
-            <a href="https://moony.club/" target="_blank">
-              <Button className="bg-pink-500 hover:bg-pink-600 text-white">
-                <Globe className="w-4 h-4 mr-2" />
-                Website
-              </Button>
-            </a>
-          </div>
 
           {/* Social Media Links */}
           <div className="space-y-3">
