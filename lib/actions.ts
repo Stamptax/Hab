@@ -41,7 +41,12 @@ export async function fetchYoutubeVideos() {
 
   try {
     const searchResponse = await fetch(
-      `https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=${process.env.CHANNEL_ID}&maxResults=15&order=date&type=video&key=${apiKey}`
+      `https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=${process.env.CHANNEL_ID}&maxResults=15&order=date&type=video&key=${apiKey}`,
+      {
+        method: "GET",
+        cache: "force-cache",
+        next: { revalidate: 28800 },
+      }
     );
 
     if (!searchResponse.ok) {
@@ -55,7 +60,12 @@ export async function fetchYoutubeVideos() {
 
     const videoIds = videos.map((video: any) => video.id.videoId).join(",");
     const detailsResponse = await fetch(
-      `https://youtube.googleapis.com/youtube/v3/videos?part=liveStreamingDetails,snippet&id=${videoIds}&key=${apiKey}`
+      `https://youtube.googleapis.com/youtube/v3/videos?part=liveStreamingDetails,snippet&id=${videoIds}&key=${apiKey}`,
+      {
+        method: "GET",
+        cache: "force-cache",
+        next: { revalidate: 28800 },
+      }
     );
 
     if (!detailsResponse.ok) {
