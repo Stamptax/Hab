@@ -5,7 +5,7 @@ export async function fetchTweets() {
 
   try {
     const response = await fetch(
-      `https://api.twitter.com/2/users/3853228393/tweets?max_results=5`,
+      `https://api.twitter.com/2/users/${process.env.TWITTER_ID}/tweets?max_results=5`,
       {
         method: "GET",
         headers: {
@@ -33,7 +33,6 @@ export async function fetchTweets() {
 
 export async function fetchYoutubeVideos() {
   const apiKey = process.env.YOUTUBE_API_KEY;
-  const channelId = "UCOLL3KDzhqu-CQ_uXZUQ7XA";
 
   if (!apiKey) {
     console.error("YouTube API key is not configured");
@@ -42,7 +41,7 @@ export async function fetchYoutubeVideos() {
 
   try {
     const searchResponse = await fetch(
-      `https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&maxResults=15&order=date&type=video&key=${apiKey}`
+      `https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=${process.env.CHANNEL_ID}&maxResults=15&order=date&type=video&key=${apiKey}`
     );
 
     if (!searchResponse.ok) {
@@ -71,10 +70,67 @@ export async function fetchYoutubeVideos() {
     const nonLiveVideos =
       detailsData.items?.filter((video: any) => !video.liveStreamingDetails) ||
       [];
-
-    return nonLiveVideos.slice(0, 5);
+    const processedVideos = nonLiveVideos.map((video: any) => ({
+      ...video,
+      snippet: {
+        ...video.snippet,
+        publishedAt: new Date(video.snippet.publishedAt).toLocaleDateString(
+          "en-CA"
+        ),
+      },
+    }));
+    return processedVideos.slice(0, 5);
   } catch (error) {
     console.error("Failed to fetch YouTube videos:", error);
+    return [];
+  }
+}
+
+export async function fetchTikTokPosts() {
+  const apiKey = process.env.TIKAPI_X_API_KEY;
+  const secUid = process.env.TIKTOK_SECUID;
+
+  if (!apiKey) {
+    console.error("TikAPI X-API-KEY is not configured");
+    return [];
+  }
+
+  if (!secUid) {
+    console.error("TikAPI secUid is not configured");
+    return [];
+  }
+
+  try {
+    const response = await fetch(
+      `https://api.tikapi.io/public/posts?secUid=${secUid}&count=5`,
+      {
+        method: "GET",
+        headers: {
+          "X-API-KEY": apiKey,
+          "Content-Type": "application/json",
+        },
+        cache: "force-cache",
+        next: { revalidate: 28800 },
+      }
+    );
+
+    if (!response.ok) {
+      if (response.status === 429) {
+        console.log("TikAPI rate limit exceeded, waiting...");
+      }
+      throw new Error(`TikAPI HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    const posts = data.itemList?.slice(-5) || [];
+    const videos = posts.map((post: any) => ({
+      id: post.id,
+      createdAt: new Date(post.createTime * 1000).toLocaleDateString("en-CA"),
+      description: post.desc,
+      thumbnail: post.video.zoomCover[960],
+    }));
+    return videos;
+  } catch (error) {
+    console.error("Failed to fetch TikTok posts:", error);
     return [];
   }
 }

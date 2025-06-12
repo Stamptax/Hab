@@ -1,10 +1,31 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Play } from "lucide-react";
 import { TweetWrapper } from "./tweet-feed/tweet-grid";
-import { fetchTweets, fetchYoutubeVideos } from "@/lib/actions";
+import {
+  fetchTweets,
+  fetchTikTokPosts,
+  fetchYoutubeVideos,
+} from "@/lib/actions";
 import { YoutubeWrapper } from "./youtube-feed/youtube-grid";
 import { BsFilm } from "react-icons/bs";
-
+import { TiktokWrapper } from "./video-feed/tiktok-grid";
+import { VideoWrapper } from "./video-feed";
+const shorts = [
+  {
+    id: 1,
+    title: "The Future of Innovation: A Deep Dive",
+    description: "The Future of Innovation: A Deep Dive",
+    thumbnail: "/placeholder.svg",
+    createdAt: "2021-01-01T00:00:00Z",
+  },
+  {
+    id: 2,
+    title: "Leadership in the Digital Age",
+    description: "Leadership in the Digital Age",
+    thumbnail: "/placeholder.svg",
+    createdAt: "2021-01-01T00:00:00Z",
+  },
+];
 const videos = [
   {
     id: 1,
@@ -43,6 +64,7 @@ const tweets = [
 export async function SocialFeed() {
   // const tweets = await fetchTweets();
   // const videos = await fetchYoutubeVideos();
+  // const shorts = await fetchTikTokPosts();
   return (
     <div className="space-y-6">
       {/* Twitter Feed */}
@@ -71,7 +93,7 @@ export async function SocialFeed() {
           </CardTitle>
         </CardHeader>
         <CardContent className="p-6">
-          <YoutubeWrapper videos={videos} />
+          <VideoWrapper videos={videos} category="youtube" />
         </CardContent>
       </Card>
 
@@ -86,7 +108,7 @@ export async function SocialFeed() {
           </CardTitle>
         </CardHeader>
         <CardContent className="p-6">
-          <YoutubeWrapper videos={videos} />
+          <VideoWrapper videos={shorts} category="tiktok" />
         </CardContent>
       </Card>
     </div>
