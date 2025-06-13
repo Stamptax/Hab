@@ -6,9 +6,7 @@ import {
   fetchTikTokPosts,
   fetchYoutubeVideos,
 } from "@/lib/actions";
-import { YoutubeWrapper } from "./youtube-feed/youtube-grid";
 import { BsFilm } from "react-icons/bs";
-import { TiktokWrapper } from "./video-feed/tiktok-grid";
 import { VideoWrapper } from "./video-feed";
 const shorts = [
   {
