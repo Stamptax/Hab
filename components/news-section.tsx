@@ -29,22 +29,18 @@ export async function NewsSection() {
         <CardContent className="p-6 space-y-4">
           {mockNotifications.map((notification) => (
             <a
+              key={notification.id}
               href={notification.link}
               target="_blank"
-              className="block no-underline text-inherit"
+              className="p-5 rounded-xl block no-underline text-inherit bg-purple-50/50 border border-purple-100 hover:bg-purple-50 hover:shadow-md transition-all duration-300"
             >
-              <div
-                key={notification.id}
-                className="p-5 rounded-xl bg-purple-50/50 border border-purple-100 hover:bg-purple-50 hover:shadow-md transition-all duration-300"
-              >
-                <div className="flex items-start justify-between mb-3"></div>
-                <h3 className="font-semibold text-slate-800 mb-3 hover:text-purple-600 cursor-pointer transition-colors leading-tight">
-                  {notification.headline}
-                </h3>
-                <div className="flex items-center justify-between text-xs text-slate-500">
-                  <div className="flex items-center gap-3">
-                    <span>{notification.publishedAt}</span>
-                  </div>
+              <div className="flex items-start justify-between mb-3"></div>
+              <h3 className="font-semibold text-slate-800 mb-3 hover:text-purple-600 cursor-pointer transition-colors leading-tight">
+                {notification.headline}
+              </h3>
+              <div className="flex items-center justify-between text-xs text-slate-500">
+                <div className="flex items-center gap-3">
+                  <span>{notification.publishedAt}</span>
                 </div>
               </div>
             </a>
