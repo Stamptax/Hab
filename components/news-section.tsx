@@ -2,16 +2,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Newspaper } from "lucide-react";
 import { getLatestNews } from "@/lib/actions";
 
+const mockNotifications = [
+  {
+    id: 1,
+    headline: "Test",
+    publishedAt: "2025-01-01",
+    link: "https://google.com",
+  },
+];
+
 export async function NewsSection() {
   // const notifications = await getLatestNews();
-
-  const mockNotifications = [
-    {
-      id: 1,
-      headline: "Test",
-      publishedAt: "2025-01-01",
-    },
-  ];
 
   return (
     <div className="space-y-6">
@@ -27,20 +28,26 @@ export async function NewsSection() {
         </CardHeader>
         <CardContent className="p-6 space-y-4">
           {mockNotifications.map((notification) => (
-            <div
-              key={notification.id}
-              className="p-5 rounded-xl bg-purple-50/50 border border-purple-100 hover:bg-purple-50 hover:shadow-md transition-all duration-300"
+            <a
+              href={notification.link}
+              target="_blank"
+              className="block no-underline text-inherit"
             >
-              <div className="flex items-start justify-between mb-3"></div>
-              <h3 className="font-semibold text-slate-800 mb-3 hover:text-purple-600 cursor-pointer transition-colors leading-tight">
-                {notification.headline}
-              </h3>
-              <div className="flex items-center justify-between text-xs text-slate-500">
-                <div className="flex items-center gap-3">
-                  <span>{notification.publishedAt}</span>
+              <div
+                key={notification.id}
+                className="p-5 rounded-xl bg-purple-50/50 border border-purple-100 hover:bg-purple-50 hover:shadow-md transition-all duration-300"
+              >
+                <div className="flex items-start justify-between mb-3"></div>
+                <h3 className="font-semibold text-slate-800 mb-3 hover:text-purple-600 cursor-pointer transition-colors leading-tight">
+                  {notification.headline}
+                </h3>
+                <div className="flex items-center justify-between text-xs text-slate-500">
+                  <div className="flex items-center gap-3">
+                    <span>{notification.publishedAt}</span>
+                  </div>
                 </div>
               </div>
-            </div>
+            </a>
           ))}
         </CardContent>
       </Card>
