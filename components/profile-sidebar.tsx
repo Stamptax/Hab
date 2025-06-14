@@ -3,7 +3,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Youtube, Twitter, User, Instagram, Moon } from "lucide-react";
 import { AiFillTikTok } from "react-icons/ai";
-import Image from "next/image";
 
 const socialStats = [
   {
@@ -58,14 +57,11 @@ export function ProfileSidebar() {
         </CardHeader>
         <CardContent className="pt-6">
           <div className="text-center mb-6">
-            <Avatar className="w-24 h-24 mx-auto mb-4 ring-4 ring-pink-100 relative">
-              <Image
+            <Avatar className="w-24 h-24 mx-auto mb-4 ring-4 ring-pink-100">
+              <AvatarImage
                 src="/hachan.jpg"
                 alt="Profile"
-                fill
-                className="object-cover rounded-full"
-                sizes="96px"
-                priority
+                className="object-cover"
               />
               <AvatarFallback className="bg-gradient-to-br from-pink-400 to-rose-500 text-white text-2xl">
                 TH
