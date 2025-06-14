@@ -5,10 +5,11 @@ import { load } from "cheerio";
 import axiosRetry from "axios-retry";
 import { unstable_cache } from "next/cache";
 
-export async function fetchTweets() {
-  const bearerToken = process.env.TWITTER_BEARER_TOKEN!;
-
+export const fetchTweets = unstable_cache(async () => {
   try {
+    const bearerToken = process.env.TWITTER_BEARER_TOKEN!;
+
+    console.log("🔄 Fetching fresh tweets...");
     const response = await fetch(
       `https://api.twitter.com/2/users/${process.env.TWITTER_ID}/tweets?max_results=5`,
       {
@@ -28,21 +29,25 @@ export async function fetchTweets() {
     }
 
     const data = await response.json();
-    return data.data || [];
+    const tweets = data.data || [];
+
+    console.log(`✅ Tweets fetched: ${tweets.length} items`);
+    return tweets;
   } catch (error) {
     console.log("Failed to fetch tweets:", error);
+    throw error;
   }
-}
+}, ["tweets"]);
 
-export async function fetchYoutubeVideos() {
-  const apiKey = process.env.YOUTUBE_API_KEY;
-
-  if (!apiKey) {
-    console.error("YouTube API key is not configured");
-    return [];
-  }
-
+export const fetchYoutubeVideos = unstable_cache(async () => {
   try {
+    const apiKey = process.env.YOUTUBE_API_KEY;
+
+    if (!apiKey) {
+      throw new Error("YouTube API key is not configured");
+    }
+
+    console.log("🔄 Fetching fresh YouTube videos...");
     const searchResponse = await fetch(
       `https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=${process.env.CHANNEL_ID}&maxResults=15&order=date&type=video&key=${apiKey}`,
       {
@@ -57,7 +62,10 @@ export async function fetchYoutubeVideos() {
     const searchData = await searchResponse.json();
     const videos = searchData.items || [];
 
-    if (videos.length === 0) return [];
+    if (videos.length === 0) {
+      console.log("No new videos found");
+      return [];
+    }
 
     const videoIds = videos.map((video: any) => video.id.videoId).join(",");
     const detailsResponse = await fetch(
@@ -69,13 +77,14 @@ export async function fetchYoutubeVideos() {
 
     if (!detailsResponse.ok) {
       console.warn(
-        "Could not check live streaming details, returning original results"
+        "Could not check live streaming details, using original results"
       );
-      return videos.slice(0, 5);
+      const processedVideos = videos.slice(0, 5);
+      console.log(`✅ YouTube videos fetched: ${processedVideos.length} items`);
+      return processedVideos;
     }
 
     const detailsData = await detailsResponse.json();
-
     const nonLiveVideos =
       detailsData.items?.filter((video: any) => !video.liveStreamingDetails) ||
       [];
@@ -88,28 +97,30 @@ export async function fetchYoutubeVideos() {
         ),
       },
     }));
-    return processedVideos.slice(0, 5);
+
+    const finalVideos = processedVideos.slice(0, 5);
+    console.log(`✅ YouTube videos fetched: ${finalVideos.length} items`);
+    return finalVideos;
   } catch (error) {
     console.error("Failed to fetch YouTube videos:", error);
-    return [];
+    throw error;
   }
-}
+}, ["youtube-videos"]);
 
-export async function fetchTikTokPosts() {
-  const apiKey = process.env.TIKAPI_X_API_KEY;
-  const secUid = process.env.TIKTOK_SECUID;
-
-  if (!apiKey) {
-    console.error("TikAPI X-API-KEY is not configured");
-    return [];
-  }
-
-  if (!secUid) {
-    console.error("TikAPI secUid is not configured");
-    return [];
-  }
-
+export const fetchTikTokPosts = unstable_cache(async () => {
   try {
+    const apiKey = process.env.TIKAPI_X_API_KEY;
+    const secUid = process.env.TIKTOK_SECUID;
+
+    if (!apiKey) {
+      throw new Error("TikAPI X-API-KEY is not configured");
+    }
+
+    if (!secUid) {
+      throw new Error("TikAPI secUid is not configured");
+    }
+
+    console.log("🔄 Fetching fresh TikTok posts...");
     const response = await fetch(
       `https://api.tikapi.io/public/posts?secUid=${secUid}&count=5`,
       {
@@ -127,6 +138,7 @@ export async function fetchTikTokPosts() {
       }
       throw new Error(`TikAPI HTTP error! status: ${response.status}`);
     }
+
     const data = await response.json();
     const posts = data.itemList?.slice(-5) || [];
     const videos = posts.map((post: any) => ({
@@ -135,12 +147,14 @@ export async function fetchTikTokPosts() {
       description: post.desc,
       thumbnail: post.video.zoomCover[960],
     }));
+
+    console.log(`✅ TikTok posts fetched: ${videos.length} items`);
     return videos;
   } catch (error) {
     console.error("Failed to fetch TikTok posts:", error);
-    return [];
+    throw error;
   }
-}
+}, ["tiktok-posts"]);
 
 const http = axios.create({
   timeout: 8000,
@@ -163,48 +177,47 @@ axiosRetry(http, {
 });
 
 export const getLatestNews = unstable_cache(async () => {
-  const url = "https://moony.club/news/";
-  const { data } = await http.get(url);
-  const $ = load(data);
-  const news: {
-    id: number;
-    headline: string;
-    publishedAt: string;
-    link: string;
-  }[] = [];
+  try {
+    console.log("🔄 Fetching fresh news...");
+    const url = "https://moony.club/news/";
+    const { data } = await http.get(url);
+    const $ = load(data);
+    const news: {
+      id: number;
+      headline: string;
+      publishedAt: string;
+      link: string;
+    }[] = [];
 
-  $("ul.mc__news-li li")
-    .slice(0, 5)
-    .each((_, li) => {
-      const $li = $(li);
-      const href = $li.find("a").attr("href");
-      const title = $li.find(".ttl").text().trim();
-      const date = $li.find(".date").text().trim();
+    $("ul.mc__news-li li")
+      .slice(0, 5)
+      .each((_, li) => {
+        const $li = $(li);
+        const href = $li.find("a").attr("href");
+        const title = $li.find(".ttl").text().trim();
+        const date = $li.find(".date").text().trim();
 
-      if (title && href) {
-        const link = new URL(href, url).href;
-        const formattedDate = date ? date.replace(/\./g, "-") : "";
+        if (title && href) {
+          const link = new URL(href, url).href;
+          const formattedDate = date ? date.replace(/\./g, "-") : "";
 
-        news.push({
-          id: news.length + 1,
-          headline: title,
-          publishedAt: formattedDate,
-          link,
-        });
-      }
-    });
+          news.push({
+            id: news.length + 1,
+            headline: title,
+            publishedAt: formattedDate,
+            link,
+          });
+        }
+      });
 
-  if (news.length === 0) {
-    console.log("No news found, providing fallback data");
-    return [
-      {
-        id: 1,
-        headline: "Error",
-        publishedAt: "1970-01-01",
-        link: "https://moony.club/news/",
-      },
-    ];
+    if (news.length === 0) {
+      throw new Error("No news found");
+    }
+
+    console.log(`✅ News fetched: ${news.length} items`);
+    return news;
+  } catch (error) {
+    console.log("Failed to fetch news:", error);
+    throw error;
   }
-
-  return news;
-});
+}, ["latest-news"]);
