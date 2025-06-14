@@ -59,7 +59,7 @@ export function ProfileSidebar() {
           <div className="text-center mb-6">
             <Avatar className="w-24 h-24 mx-auto mb-4 ring-4 ring-pink-100">
               <AvatarImage
-                src="/hachan.jpg"
+                src="/static/hachan.jpg"
                 alt="Profile"
                 className="object-cover"
               />
