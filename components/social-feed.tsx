@@ -60,9 +60,9 @@ const tweets = [
 ];
 
 export async function SocialFeed() {
-  // const tweets = await fetchTweets();
-  // const videos = await fetchYoutubeVideos();
-  // const shorts = await fetchTikTokPosts();
+  const tweets = await fetchTweets();
+  const videos = await fetchYoutubeVideos();
+  const shorts = await fetchTikTokPosts();
   return (
     <div className="space-y-6">
       {/* Twitter Feed */}

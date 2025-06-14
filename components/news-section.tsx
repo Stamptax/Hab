@@ -12,7 +12,7 @@ const mockNotifications = [
 ];
 
 export async function NewsSection() {
-  // const notifications = await getLatestNews();
+  const notifications = await getLatestNews();
 
   return (
     <div className="space-y-6">
@@ -27,7 +27,7 @@ export async function NewsSection() {
           </CardTitle>
         </CardHeader>
         <CardContent className="p-6 space-y-4">
-          {mockNotifications.map((notification) => (
+          {notifications.map((notification) => (
             <a
               key={notification.id}
               href={notification.link}

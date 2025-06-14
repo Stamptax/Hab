@@ -17,8 +17,6 @@ export async function fetchTweets() {
           Authorization: `Bearer ${bearerToken}`,
           "Content-Type": "application/json",
         },
-        cache: "force-cache",
-        next: { revalidate: 28800 },
       }
     );
 
@@ -49,8 +47,6 @@ export async function fetchYoutubeVideos() {
       `https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=${process.env.CHANNEL_ID}&maxResults=15&order=date&type=video&key=${apiKey}`,
       {
         method: "GET",
-        cache: "force-cache",
-        next: { revalidate: 28800 },
       }
     );
 
@@ -68,8 +64,6 @@ export async function fetchYoutubeVideos() {
       `https://youtube.googleapis.com/youtube/v3/videos?part=liveStreamingDetails,snippet&id=${videoIds}&key=${apiKey}`,
       {
         method: "GET",
-        cache: "force-cache",
-        next: { revalidate: 28800 },
       }
     );
 
@@ -124,8 +118,6 @@ export async function fetchTikTokPosts() {
           "X-API-KEY": apiKey,
           "Content-Type": "application/json",
         },
-        cache: "force-cache",
-        next: { revalidate: 28800 },
       }
     );
 
@@ -170,55 +162,49 @@ axiosRetry(http, {
   },
 });
 
-export const getLatestNews = unstable_cache(
-  async () => {
-    const url = "https://moony.club/news/";
-    const { data } = await http.get(url);
-    const $ = load(data);
-    const news: {
-      id: number;
-      headline: string;
-      publishedAt: string;
-      link: string;
-    }[] = [];
+export const getLatestNews = unstable_cache(async () => {
+  const url = "https://moony.club/news/";
+  const { data } = await http.get(url);
+  const $ = load(data);
+  const news: {
+    id: number;
+    headline: string;
+    publishedAt: string;
+    link: string;
+  }[] = [];
 
-    $("ul.mc__news-li li")
-      .slice(0, 5)
-      .each((_, li) => {
-        const $li = $(li);
-        const href = $li.find("a").attr("href");
-        const title = $li.find(".ttl").text().trim();
-        const date = $li.find(".date").text().trim();
+  $("ul.mc__news-li li")
+    .slice(0, 5)
+    .each((_, li) => {
+      const $li = $(li);
+      const href = $li.find("a").attr("href");
+      const title = $li.find(".ttl").text().trim();
+      const date = $li.find(".date").text().trim();
 
-        if (title && href) {
-          const link = new URL(href, url).href;
-          const formattedDate = date ? date.replace(/\./g, "-") : "";
+      if (title && href) {
+        const link = new URL(href, url).href;
+        const formattedDate = date ? date.replace(/\./g, "-") : "";
 
-          news.push({
-            id: news.length + 1,
-            headline: title,
-            publishedAt: formattedDate,
-            link,
-          });
-        }
-      });
+        news.push({
+          id: news.length + 1,
+          headline: title,
+          publishedAt: formattedDate,
+          link,
+        });
+      }
+    });
 
-    if (news.length === 0) {
-      console.log("No news found, providing fallback data");
-      return [
-        {
-          id: 1,
-          headline: "Error",
-          publishedAt: "1970-01-01",
-          link: "https://moony.club/news/",
-        },
-      ];
-    }
-
-    return news;
-  },
-  ["latest-news"],
-  {
-    revalidate: 43200,
+  if (news.length === 0) {
+    console.log("No news found, providing fallback data");
+    return [
+      {
+        id: 1,
+        headline: "Error",
+        publishedAt: "1970-01-01",
+        link: "https://moony.club/news/",
+      },
+    ];
   }
-);
+
+  return news;
+});
