@@ -3,6 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Youtube, Twitter, User, Instagram, Moon } from "lucide-react";
 import { AiFillTikTok } from "react-icons/ai";
+import ShinyText from "@/components/animations/ShinyText/ShinyText";
 
 const socialStats = [
   {
@@ -71,8 +72,14 @@ export function ProfileSidebar() {
               Tanda Hazuki
             </h2>
             <p className="text-slate-600 mb-3">Singer, Idol, Actress</p>
-            <Badge className="bg-pink-100 text-pink-700 border-pink-200">
-              Verified
+
+            <Badge className="bg-pink-100 border-pink-200" variant="customised">
+              <ShinyText
+                text="Beloved"
+                disabled={false}
+                speed={2}
+                className="custom-class"
+              />
             </Badge>
           </div>
 

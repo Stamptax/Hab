@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
-import { MagnetBackground } from "@/components/MagnetBackground";
+import { MagnetBackground } from "@/components/visual-effects/MagnetBackground";
 export const metadata: Metadata = {
   title: "Hab",
   description: "Hab",
