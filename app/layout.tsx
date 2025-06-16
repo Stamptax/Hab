@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
-
+import { MagnetBackground } from "@/components/MagnetBackground";
 export const metadata: Metadata = {
   title: "Hab",
   description: "Hab",
@@ -15,6 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <MagnetBackground />
         {children}
         <Analytics />
       </body>
