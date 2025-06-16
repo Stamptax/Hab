@@ -1,6 +1,6 @@
 "use client";
 
-import MagnetLines from "./animations/MagnetLines/MagnetLines";
+import MagnetLines from "@/components/animations/MagnetLines/MagnetLines";
 
 export function MagnetBackground() {
   return (
