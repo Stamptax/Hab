@@ -24,9 +24,9 @@ export const fetchTweets = unstable_cache(
 
       if (!response.ok) {
         if (response.status === 429) {
-          console.log("Rate limit exceeded, returning empty content");
+          console.log("Rate limit exceeded");
         }
-        console.log(`HTTP error! status: ${response.status}`);
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const data = (await response.json())?.data || [];
