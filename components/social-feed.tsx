@@ -3,7 +3,7 @@ import { Play } from "lucide-react";
 import { TweetWrapper } from "./tweet-feed/tweet-grid";
 import {
   fetchTweets,
-  fetchTikTokPosts,
+  // fetchTikTokPosts,
   fetchYoutubeVideos,
 } from "@/lib/actions";
 import { BsFilm } from "react-icons/bs";
@@ -62,7 +62,7 @@ const tweets = [
 export async function SocialFeed() {
   const tweets = await fetchTweets();
   const videos = await fetchYoutubeVideos();
-  const shorts = await fetchTikTokPosts();
+  // const shorts = await fetchTikTokPosts();
   return (
     <div className="space-y-6">
       {/* Twitter Feed */}
@@ -96,7 +96,7 @@ export async function SocialFeed() {
       </Card>
 
       {/* Tiktok Videos */}
-      <Card className="backdrop-blur-sm bg-white/90 border border-cyan-100 shadow-lg hover:shadow-xl transition-shadow duration-300">
+      {/* <Card className="backdrop-blur-sm bg-white/90 border border-cyan-100 shadow-lg hover:shadow-xl transition-shadow duration-300">
         <CardHeader className="bg-gradient-to-r from-cyan-50 to-sky-50 border-b border-cyan-100">
           <CardTitle className="flex items-center gap-3 text-slate-700">
             <div className="w-8 h-8 bg-fuchsia-500 rounded-full flex items-center justify-center">
@@ -108,7 +108,7 @@ export async function SocialFeed() {
         <CardContent className="p-6">
           <VideoWrapper videos={shorts} category="tiktok" />
         </CardContent>
-      </Card>
+      </Card> */}
     </div>
   );
 }

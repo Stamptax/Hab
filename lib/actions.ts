@@ -24,15 +24,17 @@ export const fetchTweets = unstable_cache(
 
       if (!response.ok) {
         if (response.status === 429) {
-          console.log("Rate limit exceeded, waiting...");
+          console.log("Rate limit exceeded, returning empty content");
         }
-        throw new Error(`HTTP error! status: ${response.status}`);
+        console.log(`HTTP error! status: ${response.status}`);
       }
 
-      const data = await response.json();
-      const tweets = data.data || [];
+      const data = (await response.json())?.data || [];
+      const tweets = data;
 
-      console.log(`✅ Tweets fetched: ${tweets.length} items`);
+      if (tweets.length > 0) {
+        console.log(`✅ Tweets fetched: ${tweets.length} items`);
+      }
       return tweets;
     } catch (error) {
       console.log("Failed to fetch tweets:", error);
@@ -122,60 +124,60 @@ export const fetchYoutubeVideos = unstable_cache(
   }
 );
 
-export const fetchTikTokPosts = unstable_cache(
-  async () => {
-    try {
-      const apiKey = process.env.TIKAPI_X_API_KEY;
-      const secUid = process.env.TIKTOK_SECUID;
+// export const fetchTikTokPosts = unstable_cache(
+//   async () => {
+//     try {
+//       const apiKey = process.env.TIKAPI_X_API_KEY;
+//       const secUid = process.env.TIKTOK_SECUID;
 
-      if (!apiKey) {
-        throw new Error("TikAPI X-API-KEY is not configured");
-      }
+//       if (!apiKey) {
+//         throw new Error("TikAPI X-API-KEY is not configured");
+//       }
 
-      if (!secUid) {
-        throw new Error("TikAPI secUid is not configured");
-      }
+//       if (!secUid) {
+//         throw new Error("TikAPI secUid is not configured");
+//       }
 
-      console.log("🔄 Fetching fresh TikTok posts...");
-      const response = await fetch(
-        `https://api.tikapi.io/public/posts?secUid=${secUid}&count=5`,
-        {
-          method: "GET",
-          headers: {
-            "X-API-KEY": apiKey,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+//       console.log("🔄 Fetching fresh TikTok posts...");
+//       const response = await fetch(
+//         `https://api.tikapi.io/public/posts?secUid=${secUid}&count=5`,
+//         {
+//           method: "GET",
+//           headers: {
+//             "X-API-KEY": apiKey,
+//             "Content-Type": "application/json",
+//           },
+//         }
+//       );
 
-      if (!response.ok) {
-        if (response.status === 429) {
-          console.log("TikAPI rate limit exceeded, waiting...");
-        }
-        throw new Error(`TikAPI HTTP error! status: ${response.status}`);
-      }
+//       if (!response.ok) {
+//         if (response.status === 429) {
+//           console.log("TikAPI rate limit exceeded, waiting...");
+//         }
+//         throw new Error(`TikAPI HTTP error! status: ${response.status}`);
+//       }
 
-      const data = await response.json();
-      const posts = data.itemList?.slice(-5) || [];
-      const videos = posts.map((post: any) => ({
-        id: post.id,
-        createdAt: new Date(post.createTime * 1000).toLocaleDateString("en-CA"),
-        description: post.desc,
-        thumbnail: post.video.zoomCover[960],
-      }));
+//       const data = await response.json();
+//       const posts = data.itemList?.slice(-5) || [];
+//       const videos = posts.map((post: any) => ({
+//         id: post.id,
+//         createdAt: new Date(post.createTime * 1000).toLocaleDateString("en-CA"),
+//         description: post.desc,
+//         thumbnail: post.video.zoomCover[960],
+//       }));
 
-      console.log(`✅ TikTok posts fetched: ${videos.length} items`);
-      return videos;
-    } catch (error) {
-      console.error("Failed to fetch TikTok posts:", error);
-      throw error;
-    }
-  },
-  ["tiktok-posts"],
-  {
-    revalidate: 28800,
-  }
-);
+//       console.log(`✅ TikTok posts fetched: ${videos.length} items`);
+//       return videos;
+//     } catch (error) {
+//       console.error("Failed to fetch TikTok posts:", error);
+//       throw error;
+//     }
+//   },
+//   ["tiktok-posts"],
+//   {
+//     revalidate: 28800,
+//   }
+// );
 
 const http = axios.create({
   timeout: 8000,
