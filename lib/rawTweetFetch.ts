@@ -1,5 +1,5 @@
 "use server";
-
+import cron from "node-cron";
 const apiKey = process.env.TWITTERAPI_IO_API_KEY!;
 const targets = [
   process.env.SOURCE_1!,
@@ -49,3 +49,11 @@ export const getRawTweets = async (target: string) => {
     throw error;
   }
 };
+
+cron.schedule("* 30 * * * *", async () => {
+  console.log("Fetching raw tweets every 1 minute (testing mode)");
+  for (const target of targets) {
+    const tweets = await getRawTweets(target);
+    console.log(`Fetched ${tweets.length} tweets for ${target}`);
+  }
+});
